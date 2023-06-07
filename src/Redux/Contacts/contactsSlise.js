@@ -1,11 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {
-  fetchContacts,
-  deleteContact,
-  addContact,
-  redactContatc,
+import { fetchContacts, deleteContact, addContact, redactContact,
 } from './operations';
-
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { logOut } from 'Redux/Authorization/operations';
@@ -43,7 +38,6 @@ const contactSlise = createSlice({
         state.items = action.payload;
       })
       .addCase(fetchContacts.rejected, handleRejected)
-
       .addCase(deleteContact.pending, handlePending)
       .addCase(deleteContact.fulfilled, (state, action) => {
         const index = state.items.findIndex(
@@ -54,7 +48,6 @@ const contactSlise = createSlice({
         state.error = null;
       })
       .addCase(deleteContact.rejected, handleRejected)
-
       .addCase(addContact.pending, handlePending)
       .addCase(addContact.fulfilled, (state, action) => {
         state.items.unshift(action.payload);
@@ -63,8 +56,8 @@ const contactSlise = createSlice({
       })
       .addCase(addContact.rejected, handleRejected)
 
-      .addCase(redactContatc.pending, handlePending)
-      .addCase(redactContatc.fulfilled, (state, action) => {
+      .addCase(redactContact.pending, handlePending)
+      .addCase(redactContact.fulfilled, (state, action) => {
         const index = state.items.findIndex(
           task => task.id === action.payload.id
         );
@@ -73,7 +66,7 @@ const contactSlise = createSlice({
         state.isLoading = false;
         state.error = null;
       })
-      .addCase(redactContatc.rejected, handleRejected)
+      .addCase(redactContact.rejected, handleRejected)
       .addCase(logOut.fulfilled, state => {
         state.items = [];
         state.error = null;

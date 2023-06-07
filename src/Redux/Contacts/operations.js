@@ -39,7 +39,7 @@ export const addContact = createAsyncThunk(
   }
 );
 
-export const redactContatc = createAsyncThunk(
+export const redactContact = createAsyncThunk(
   'contacts/redactContatc',
   async (data, { rejectWithValue }) => {
     try {

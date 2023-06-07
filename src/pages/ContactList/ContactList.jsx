@@ -1,11 +1,9 @@
 import { Item, List, ButtonRedact, UserIcon, PhoneIcon, InputForm, ModalRedact, 
   UserIconList, PhoneiconList, DivName, Spiner, Title, Container
 } from './ContactList.styled'; 
-
 import { useDispatch, useSelector } from 'react-redux';
-
-import { deleteContact, redactContatc, fetchContacts } from 'Redux/Contacts/operations'; 
-
+import { createSelector } from 'reselect';
+import { deleteContact, redactContact, fetchContacts } from 'Redux/Contacts/operations'; 
 import { useEffect, useState } from 'react';
 import { Filter } from 'components/Filter/Filter';
 import { ContactForm } from 'components/ContactForm/ContactForm';
@@ -21,7 +19,7 @@ export default function Contactlist() {
 
   const handleOk = () => {
     setIsModalOpen(false); 
-    dispatch(redactContatc({ id: subId, name: subName, number: subNumber })); 
+    dispatch(redactContact({ id: subId, name: subName, number: subNumber })); 
   };
 
   const showModal = (name, number, id) => {
@@ -41,11 +39,18 @@ export default function Contactlist() {
 
   const { isLoading } = useSelector(state => state.contacts);
   const contacts = useSelector(state => state.contacts.items);
-  const filterData = useSelector(state => state.filter).toLowerCase(); 
 
-  const visibleContacts = contacts.filter(subscriber =>
-    subscriber.name.toLowerCase().includes(filterData)
+  const getContacts = state => state.contacts.items;
+  const getFilter = state => state.filter.toLowerCase();
+  
+  const getVisibleContacts = createSelector(
+    [getContacts, getFilter],
+    (contacts, filter) => {
+      return contacts.filter(subscriber => subscriber.name.toLowerCase().includes(filter));
+    }
   );
+  
+  const visibleContacts = useSelector(getVisibleContacts);
 
   return (
     <section>

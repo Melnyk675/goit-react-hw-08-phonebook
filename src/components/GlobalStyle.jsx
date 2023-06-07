@@ -14,7 +14,7 @@ export const GlobalStyle = createGlobalStyle`
   }
   section {
     padding: 0 15px;
-    width: 1000px;
+    width: 1200px;
   }
   header {
     border-bottom: 2px solid #3a97e8;
